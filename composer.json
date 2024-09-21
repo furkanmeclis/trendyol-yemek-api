@@ -1,0 +1,19 @@
+{
+  "name": "furkanmeclis/trendyol-yemek-api",
+  "description": "Trendyol Yemek API PHP Client",
+  "type": "library",
+  "authors": [
+    {
+      "name": "Furkan Meclis",
+      "email": "furkanmeclis@icloud.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "furkanmeclis\\Tools\\": "src/"
+    }
+  },
+  "require": {
+    "ext-curl": "*"
+  }
+}
