@@ -1,6 +1,10 @@
 > This is the first version of the package. It is the most stable version that includes all Trendyol services and will be shared in the shortest time possible.
 
 # Trendyol Yemek Service
+![Packagist Downloads](https://img.shields.io/packagist/dt/furkanmeclis/trendyol-yemek-api) ![Packagist Stars](https://img.shields.io/packagist/stars/furkanmeclis/trendyol-yemek-api) ![Packagist Version](https://img.shields.io/packagist/v/furkanmeclis/trendyol-yemek-api) ![Packagist License](https://img.shields.io/packagist/l/furkanmeclis/trendyol-yemek-api)
+
+
+
 
 This repository provides a PHP implementation for integrating with the Trendyol Food API. It includes various functionalities such as managing menus, restaurants, and orders, allowing seamless interactions with the Trendyol food delivery system.
 
