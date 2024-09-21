@@ -2,6 +2,7 @@
   "name": "furkanmeclis/trendyol-yemek-api",
   "description": "Trendyol Yemek API PHP Client",
   "type": "library",
+  "license":"MIT",
   "authors": [
     {
       "name": "Furkan Meclis",
