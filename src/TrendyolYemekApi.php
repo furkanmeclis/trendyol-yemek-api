@@ -10,7 +10,7 @@ class TrendyolYemekApi
     private $restaurantId;
     private $apiUsername;
     private $apiPassword;
-    private $baseUrl = 'https://stageapi.trendyol.com/mealgw/suppliers/';
+    private $baseUrl = 'https://api.trendyol.com/mealgw/suppliers/';
 
     /**
      * @param $supplierId
