@@ -37,33 +37,41 @@ class TrendyolYemekApi
      * @param $endpoint
      * @param $data
      * @return mixed
+     * @throws Exception
      */
     private function makeRequest($method, $endpoint, $data = null)
     {
-        $ch = curl_init();
-        $url = $this->baseUrl . $this->supplierId . $endpoint;
+        try {
+            $ch = curl_init();
+            $url = $this->baseUrl . $this->supplierId . $endpoint;
 
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-        $headers = [
-            'Authorization: Basic ' . base64_encode($this->apiUsername . ':' . $this->apiPassword),
-            'Content-Type: application/json',
-        ];
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            $headers = [
+                'Authorization: Basic ' . base64_encode($this->apiUsername . ':' . $this->apiPassword),
+                'Content-Type: application/json',
+                'x-agentname:' . $this->supplierId . " - SelfIntegration",
+                'x-executor-user:furkanmeclis@icloud.com'
+            ];
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($ch, CURLOPT_USERAGENT, $this->supplierId . ' - TrendyolSoft');
+            if ($method === 'POST' || $method === 'PUT') {
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+            }
 
-        if ($method === 'POST' || $method === 'PUT') {
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+            $response = curl_exec($ch);
+            curl_close($ch);
+            return json_decode($response, true);
+        } catch (Exception $e) {
+            throw new Exception(json_encode(["message" => $e->getMessage(), "error" => true]));
         }
-
-        $response = curl_exec($ch);
-        curl_close($ch);
-        return json_decode($response, true);
     }
 
     /**
      * @return mixed
+     * @throws Exception
      */
     public function getMenu()
     {
@@ -73,6 +81,7 @@ class TrendyolYemekApi
     /**
      * @param $status
      * @return mixed
+     * @throws Exception
      */
     public function updateCategoryStatus($status)
     {
@@ -84,6 +93,7 @@ class TrendyolYemekApi
      * @param $productId
      * @param $status
      * @return mixed
+     * @throws Exception
      */
     public function updateProductStatus($productId, $status)
     {
@@ -93,6 +103,7 @@ class TrendyolYemekApi
 
     /**
      * @return mixed
+     * @throws Exception
      */
     public function getRestaurantInfo()
     {
@@ -102,6 +113,7 @@ class TrendyolYemekApi
     /**
      * @param $areas
      * @return mixed
+     * @throws Exception
      */
     public function updateDeliveryAreas($areas)
     {
@@ -111,6 +123,7 @@ class TrendyolYemekApi
     /**
      * @param $workingHours
      * @return mixed
+     * @throws Exception
      */
     public function updateWorkingHours($workingHours)
     {
@@ -120,6 +133,7 @@ class TrendyolYemekApi
     /**
      * @param $status
      * @return mixed
+     * @throws Exception
      */
     public function updateRestaurantStatus($status)
     {
@@ -129,6 +143,7 @@ class TrendyolYemekApi
 
     /**
      * @return mixed
+     * @throws Exception
      */
     public function getPackages()
     {
@@ -139,6 +154,7 @@ class TrendyolYemekApi
      * @param $packageId
      * @param $preparationTime
      * @return mixed
+     * @throws Exception
      */
     public function acceptOrder($packageId, $preparationTime)
     {
@@ -149,6 +165,7 @@ class TrendyolYemekApi
     /**
      * @param $packageId
      * @return mixed
+     * @throws Exception
      */
     public function completeOrder($packageId)
     {
@@ -159,6 +176,7 @@ class TrendyolYemekApi
     /**
      * @param $packageId
      * @return mixed
+     * @throws Exception
      */
     public function shipOrder($packageId)
     {
@@ -169,6 +187,7 @@ class TrendyolYemekApi
     /**
      * @param $packageId
      * @return mixed
+     * @throws Exception
      */
     public function deliverOrder($packageId)
     {
@@ -181,6 +200,7 @@ class TrendyolYemekApi
      * @param $itemIdList
      * @param $reasonId
      * @return mixed
+     * @throws Exception
      */
     public function cancelOrder($packageId, $itemIdList, $reasonId)
     {
