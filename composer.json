@@ -3,6 +3,8 @@
   "description": "Trendyol Yemek API PHP Client",
   "type": "library",
   "license":"MIT",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
   "authors": [
     {
       "name": "Furkan Meclis",
