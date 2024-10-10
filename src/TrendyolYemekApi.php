@@ -11,6 +11,7 @@ class TrendyolYemekApi
     private $apiUsername;
     private $apiPassword;
     private $baseUrl = 'https://api.trendyol.com/mealgw/suppliers/';
+    private $executionUser = '';
 
     /**
      * @param $supplierId
@@ -19,9 +20,9 @@ class TrendyolYemekApi
      * @param $apiPassword
      * @throws Exception
      */
-    public function __construct($supplierId = null, $restaurantId = null, $apiUsername = null, $apiPassword = null)
+    public function __construct($supplierId = null, $restaurantId = null, $apiUsername = null, $apiPassword = null, $executionUser = null)
     {
-        if (is_null($supplierId) || is_null($restaurantId) || is_null($apiUsername) || is_null($apiPassword)) {
+        if (is_null($supplierId) || is_null($restaurantId) || is_null($apiUsername) || is_null($apiPassword) || is_null($executionUser)) {
             throw new Exception(json_encode(["message" => "Kimlik Bilgileri Girilmedi", "error" => true]));
         }
 
@@ -52,7 +53,7 @@ class TrendyolYemekApi
                 'Authorization: Basic ' . base64_encode($this->apiUsername . ':' . $this->apiPassword),
                 'Content-Type: application/json',
                 'x-agentname:' . $this->supplierId . " - SelfIntegration",
-                'x-executor-user:furkanmeclis@icloud.com'
+                'x-executor-user:' . $this->executionUser
             ];
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
             curl_setopt($ch, CURLOPT_USERAGENT, $this->supplierId . ' - TrendyolSoft');
