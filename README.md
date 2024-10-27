@@ -13,7 +13,7 @@ This repository provides a PHP implementation for integrating with the Trendyol 
 You can install this package via Composer:
 
 ```bash
-composer require furkanmeclis/trendyol-yemek-service
+composer require furkanmeclis/trendyol-yemek-api
 ```
 ## Usage
 
