@@ -39,7 +39,7 @@ class TrendyolYemekApi
      * @return mixed
      * @throws Exception
      */
-    private function makeRequest($method, $endpoint, $data = null)
+    private function makeRequest($method, $endpoint, $data = null, $returnBoolean = false)
     {
         try {
             $ch = curl_init();
@@ -60,8 +60,11 @@ class TrendyolYemekApi
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
             }
-
             $response = curl_exec($ch);
+            if ($returnBoolean) {
+                $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                return $statusCode == 200;
+            }
             curl_close($ch);
             return json_decode($response, true);
         } catch (Exception $e) {
@@ -117,7 +120,7 @@ class TrendyolYemekApi
      */
     public function updateDeliveryAreas($areas)
     {
-        return $this->makeRequest('PUT', '/restaurants/' . $this->restaurantId . '/delivery-areas', ['areas' => $areas]);
+        return $this->makeRequest('PUT', '/restaurants/' . $this->restaurantId . '/delivery-areas', ['areas' => $areas],true);
     }
 
     /**
@@ -127,7 +130,7 @@ class TrendyolYemekApi
      */
     public function updateWorkingHours($workingHours)
     {
-        return $this->makeRequest('PUT', '/restaurants/' . $this->restaurantId . '/working-hours', ['workingHours' => $workingHours]);
+        return $this->makeRequest('PUT', '/restaurants/' . $this->restaurantId . '/working-hours', ['workingHours' => $workingHours],true);
     }
 
     /**
@@ -138,7 +141,7 @@ class TrendyolYemekApi
     public function updateRestaurantStatus($status)
     {
         $data = ['status' => $status];
-        return $this->makeRequest('PUT', '/restaurants/' . $this->restaurantId . '/status', $data);
+        return $this->makeRequest('PUT', '/restaurants/' . $this->restaurantId . '/status', $data, true);
     }
 
     /**
@@ -159,7 +162,7 @@ class TrendyolYemekApi
     public function acceptOrder($packageId, $preparationTime)
     {
         $data = ['packageId' => $packageId, 'preparationTime' => $preparationTime];
-        return $this->makeRequest('PUT', '/packages/picked', $data);
+        return $this->makeRequest('PUT', '/packages/picked', $data, true);
     }
 
     /**
@@ -170,7 +173,7 @@ class TrendyolYemekApi
     public function completeOrder($packageId)
     {
         $data = ['packageId' => $packageId];
-        return $this->makeRequest('PUT', '/packages/invoiced', $data);
+        return $this->makeRequest('PUT', '/packages/invoiced', $data, true);
     }
 
     /**
@@ -181,7 +184,7 @@ class TrendyolYemekApi
     public function shipOrder($packageId)
     {
         $data = ['packageId' => $packageId];
-        return $this->makeRequest('PUT', '/packages/' . $packageId . '/manual-shipped', $data);
+        return $this->makeRequest('PUT', '/packages/' . $packageId . '/manual-shipped', $data,true);
     }
 
     /**
@@ -192,7 +195,7 @@ class TrendyolYemekApi
     public function deliverOrder($packageId)
     {
         $data = ['packageId' => $packageId];
-        return $this->makeRequest('PUT', '/packages/' . $packageId . '/manual-delivered', $data);
+        return $this->makeRequest('PUT', '/packages/' . $packageId . '/manual-delivered', $data,true);
     }
 
     /**
@@ -205,6 +208,6 @@ class TrendyolYemekApi
     public function cancelOrder($packageId, $itemIdList, $reasonId)
     {
         $data = ['packageId' => $packageId, 'itemIdList' => $itemIdList, 'reasonId' => $reasonId];
-        return $this->makeRequest('PUT', '/packages/unsupplied', $data);
+        return $this->makeRequest('PUT', '/packages/unsupplied', $data,true);
     }
 }
